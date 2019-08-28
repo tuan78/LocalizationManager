@@ -1,6 +1,6 @@
 # LocalizationManager
 
-[![CI Status](https://img.shields.io/travis/Tuan Tran/LocalizationManager.svg?style=flat)](https://travis-ci.org/Tuan Tran/LocalizationManager)
+[![CI Status](https://img.shields.io/travis/tuan78/LocalizationManager.svg?style=flat)](https://travis-ci.org/tuan78/LocalizationManager)
 [![Version](https://img.shields.io/cocoapods/v/LocalizationManager.svg?style=flat)](https://cocoapods.org/pods/LocalizationManager)
 [![License](https://img.shields.io/cocoapods/l/LocalizationManager.svg?style=flat)](https://cocoapods.org/pods/LocalizationManager)
 [![Platform](https://img.shields.io/cocoapods/p/LocalizationManager.svg?style=flat)](https://cocoapods.org/pods/LocalizationManager)
@@ -10,6 +10,9 @@
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
 ## Requirements
+
+* iOS 9.0+
+* Swift 4.2+
 
 ## Installation
 
