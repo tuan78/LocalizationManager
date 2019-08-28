@@ -10,16 +10,56 @@ import UIKit
 import LocalizationManager
 
 class ViewController: UIViewController {
+    
+    @IBOutlet weak private var firstLabel: UILabel!
+    @IBOutlet weak private var secondLabel: UILabel!
+    
+    private let defaultLanguageCode = "en"
+    private let testLTRLanguageCode = "ar"
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        NotificationCenter.default
+            .addObserver(self,
+                         selector: #selector(languageDidChange),
+                         name: .LanguageDidChange, object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    @IBAction private func changeLanguageButtonDidTouchUpInside() {
+        let sharedLocalizationManager = LocalizationManager.shared
+        if sharedLocalizationManager.currentLanguage != defaultLanguageCode {
+            sharedLocalizationManager.currentLanguage = defaultLanguageCode
+        } else {
+            sharedLocalizationManager.currentLanguage = testLTRLanguageCode
+        }
     }
-
+    
+    @objc private func languageDidChange() {
+        print("LanguageDidChange:  \(NSLocalizedString("hello", comment: ""))" )
+        openMainViewController()
+    }
+    
+    private func openMainViewController() {
+        guard let window = UIApplication.shared.keyWindow else {
+            return
+        }
+        
+        guard let rootViewController = window.rootViewController else {
+            return
+        }
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateInitialViewController()
+        vc?.view.frame = rootViewController.view.frame
+        vc?.view.layoutIfNeeded()
+        
+        UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve, animations: {
+            window.rootViewController = vc
+        }, completion: nil)
+    }
 }
-

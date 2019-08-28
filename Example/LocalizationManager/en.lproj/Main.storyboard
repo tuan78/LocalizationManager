@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="vXZ-lx-hvc">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="ufC-wZ-h7g">
+            <objects>
+                <viewController id="vXZ-lx-hvc" customClass="ViewController" customModule="LocalizationManager_Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
+                        <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hello" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U4c-Cc-9B8">
+                                <rect key="frame" x="143.5" y="65" width="88" height="48"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="40"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Support RTL &lt;-&gt; LTR" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uWs-g9-1fb">
+                                <rect key="frame" x="16" y="137" width="164" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notification of language changes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3GE-7c-uP5">
+                                <rect key="frame" x="16" y="182" width="252" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u8H-0L-9Dt">
+                                <rect key="frame" x="113.5" y="588" width="148" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="Change Language"/>
+                                <connections>
+                                    <action selector="changeLanguageButtonDidTouchUpInside" destination="vXZ-lx-hvc" eventType="touchUpInside" id="xYh-bg-T9n"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="uWs-g9-1fb" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="1ZV-e1-5YT"/>
+                            <constraint firstItem="U4c-Cc-9B8" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="45" id="3iG-P5-e1p"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="u8H-0L-9Dt" secondAttribute="bottom" constant="45" id="EKU-Ku-IN9"/>
+                            <constraint firstItem="uWs-g9-1fb" firstAttribute="top" secondItem="U4c-Cc-9B8" secondAttribute="bottom" constant="24" id="FIy-tU-chS"/>
+                            <constraint firstItem="U4c-Cc-9B8" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="gHe-YC-HM9"/>
+                            <constraint firstItem="u8H-0L-9Dt" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="njF-94-Vox"/>
+                            <constraint firstItem="3GE-7c-uP5" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="uNG-vn-o7e"/>
+                            <constraint firstItem="3GE-7c-uP5" firstAttribute="top" secondItem="uWs-g9-1fb" secondAttribute="bottom" constant="24" id="xqm-Wl-zPB"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="changeLanguageButton" destination="u8H-0L-9Dt" id="7mp-Eq-QM8"/>
+                        <outlet property="firstLabel" destination="uWs-g9-1fb" id="z3y-tU-kkm"/>
+                        <outlet property="greetingsLabel" destination="U4c-Cc-9B8" id="Vno-if-MYv"/>
+                        <outlet property="secondLabel" destination="3GE-7c-uP5" id="UiO-fU-tne"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
+    </scenes>
+</document>

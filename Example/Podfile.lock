@@ -20,7 +20,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
-  LocalizationManager: 18647b3b44a5fc2dd5a2e1ea2979b0b7c2aa3067
+  LocalizationManager: e658ba8924d051d90c722fec925278bf22f12edb
 
 PODFILE CHECKSUM: 7358d85e899fe1ed5432fbca023b014516f9ac63
 

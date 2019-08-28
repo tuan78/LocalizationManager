@@ -1,0 +1,9 @@
+/* 
+  Localizable.strings
+  LocalizationManager
+
+  Created by Tuan Tran on 8/28/19.
+  Copyright © 2019 Tuan Tran. All rights reserved.
+*/
+
+"hello" = "مرحبا";

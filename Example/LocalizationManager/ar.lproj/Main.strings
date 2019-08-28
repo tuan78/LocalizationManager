@@ -1,0 +1,12 @@
+
+/* Class = "UILabel"; text = "Notification of language changes"; ObjectID = "7jg-rl-p6o"; */
+"7jg-rl-p6o.text" = "إخطار بتغييرات اللغة";
+
+/* Class = "UIButton"; normalTitle = "Change Language"; ObjectID = "e3U-ft-JHq"; */
+"e3U-ft-JHq.normalTitle" = "غير اللغة";
+
+/* Class = "UILabel"; text = "Hello"; ObjectID = "hb0-qD-QXV"; */
+"hb0-qD-QXV.text" = "مرحبا";
+
+/* Class = "UILabel"; text = "Support RTL <-> LTR"; ObjectID = "sdM-bo-eg8"; */
+"sdM-bo-eg8.text" = "دعم RTL <-> LTR";
