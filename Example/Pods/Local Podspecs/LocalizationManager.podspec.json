@@ -1,0 +1,22 @@
+{
+  "name": "LocalizationManager",
+  "version": "0.1.0",
+  "summary": "A short description of LocalizationManager.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/Tuan Tran/LocalizationManager",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "Tuan Tran": "tuan.tran@wearefram.com"
+  },
+  "source": {
+    "git": "https://github.com/Tuan Tran/LocalizationManager.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "LocalizationManager/Classes/**/*"
+}
