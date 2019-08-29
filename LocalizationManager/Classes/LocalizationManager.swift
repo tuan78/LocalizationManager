@@ -18,25 +18,54 @@ open class LocalizationManager {
             return getCurrentAppleLanguage()
         }
         set(value) {
+            defer {
+                NotificationCenter.default.post(name: .LMLanguageDidChange, object: nil)
+            }
             setCurrentAppleLanguage(value)
-            setGlobalViewAppearanceDirection()
-            NotificationCenter.default.post(name: .LanguageDidChange, object: nil, userInfo: nil)
+            checkAndApplyGlobalLayoutDirection(forLanguage: value)
         }
     }
     
-    /// RTL Languages, mutable array which can edit anytime
-    open var rtlLanguages: [String] = ["ar"]
+    /// Supported RTL Languages with ISO 639 code-1 format
+    open var rtlLanguages: [String] = ["ar", "he", "fa", "ur"]
     
-    /// isRTL boolean which is to check layout direction
+    /// isRTL boolean to check current layout direction
     open var isRTL: Bool {
         get {
-            return UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft
+            return layoutDirection(forLanguage: currentLanguage) == .rightToLeft
         }
     }
     
     open func start() {
         swizzlingLocalizationMethod()
         swizzlingUILayoutDirectionMethod()
+    }
+    
+    /// Layout direction for given language code.
+    open func layoutDirection(forLanguage language: String) -> UIUserInterfaceLayoutDirection {
+        let twoLettersCode = language.twoLettersLanguageCode
+        for rtlLanguageCode in rtlLanguages {
+            if rtlLanguageCode == twoLettersCode {
+                return .rightToLeft
+            }
+        }
+        return .leftToRight
+    }
+    
+    // MARK: Semantic Content Attribute
+    
+    open var currentSemanticContentAttribute: UISemanticContentAttribute {
+        return UIView.appearance().semanticContentAttribute
+    }
+    
+    open func semanticContentAttribute(forLayoutDirection direction: UIUserInterfaceLayoutDirection) -> UISemanticContentAttribute {
+        return direction == .rightToLeft ? .forceRightToLeft : .forceLeftToRight
+    }
+    
+    open func setGlobalLayoutDirection(_ direction: UIUserInterfaceLayoutDirection) {
+        let contentAttribute = semanticContentAttribute(forLayoutDirection: direction)
+        UIView.appearance().semanticContentAttribute = contentAttribute
+        UINavigationBar.appearance().semanticContentAttribute = contentAttribute
     }
     
     // MARK: Private Functions
@@ -57,9 +86,15 @@ open class LocalizationManager {
                                     overrideSelector: overrideSelector)
     }
     
-    private func setGlobalViewAppearanceDirection() {
-        UIView.appearance().semanticContentAttribute = isRTL ? .forceRightToLeft : .forceLeftToRight
-        UINavigationBar.appearance().semanticContentAttribute = isRTL ? .forceRightToLeft : .forceLeftToRight
+    private func checkAndApplyGlobalLayoutDirection(forLanguage language: String) {
+        let oldContentAttribute = currentSemanticContentAttribute
+        let newDirection = layoutDirection(forLanguage: language)
+        if oldContentAttribute != semanticContentAttribute(forLayoutDirection: newDirection) {
+            defer {
+                NotificationCenter.default.post(name: .LMLayoutDirectionDidChange, object: nil)
+            }
+            setGlobalLayoutDirection(newDirection)
+        }
     }
 }
 
@@ -81,10 +116,30 @@ public extension LocalizationManager {
     }
 }
 
+// MARK: - String - Extension
+
+public extension String {
+    
+    /// Get first two letters from language code
+    ///
+    /// Example: will get zh from zh-Hans (Chinese Simplified)
+    var twoLettersLanguageCode: String {
+        if self.count > 2 {
+            return String(self.prefix(2))
+        }
+        return self
+    }
+}
+
 // MARK: - NSNotification
 
 public extension NSNotification.Name {
-    static let LanguageDidChange = Notification.Name("LanguageDidChange")
+    
+    /// Notifcation whenever language changed.
+    static let LMLanguageDidChange = Notification.Name("LMLanguageDidChange")
+    
+    /// Notification whenever layout direction changed. From RTL to LTR and vice versace.
+    static let LMLayoutDirectionDidChange = Notification.Name("LMLayoutDirectionDidChange")
 }
 
 // MARK: - Application - Extension
@@ -95,13 +150,17 @@ public extension UIApplication {
         get {
             let sharedLocalizationManager = LocalizationManager.shared
             let currentLanguageCode = sharedLocalizationManager.currentLanguage
-            for rtlLanguageCode in sharedLocalizationManager.rtlLanguages {
-                if rtlLanguageCode == currentLanguageCode {
-                    return .rightToLeft
-                }
-            }
-            return .leftToRight
+            return LocalizationManager.shared.layoutDirection(forLanguage: currentLanguageCode)
         }
+    }
+}
+
+// MAKR: - UIView - Extension
+
+public extension UIView {
+    
+    func updateCurrentLayoutDirection() {
+        semanticContentAttribute = LocalizationManager.shared.currentSemanticContentAttribute
     }
 }
 
