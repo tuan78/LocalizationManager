@@ -23,7 +23,7 @@ class ViewController: UIViewController {
         NotificationCenter.default
             .addObserver(self,
                          selector: #selector(languageDidChange),
-                         name: .LanguageDidChange, object: nil)
+                         name: .LMLanguageDidChange, object: nil)
     }
     
     deinit {
@@ -40,7 +40,11 @@ class ViewController: UIViewController {
     }
     
     @objc private func languageDidChange() {
-        print("LanguageDidChange:  \(NSLocalizedString("hello", comment: ""))" )
+        var message = "LanguageDidChange:  \(NSLocalizedString("hello", comment: ""))"
+        if LocalizationManager.shared.isRTL {
+            message += " with RTL supports"
+        }
+        print(message)
         openMainViewController()
     }
     
