@@ -4,7 +4,7 @@ PODS:
   - FBSnapshotTestCase/Core (2.1.4)
   - FBSnapshotTestCase/SwiftSupport (2.1.4):
     - FBSnapshotTestCase/Core
-  - LocalizationManager (0.1.0)
+  - LocalizationManager (0.1.1)
 
 DEPENDENCIES:
   - FBSnapshotTestCase (~> 2.1.4)
@@ -20,7 +20,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
-  LocalizationManager: e658ba8924d051d90c722fec925278bf22f12edb
+  LocalizationManager: 244a78c0d834ef2f8b46a8477e06927b1a184893
 
 PODFILE CHECKSUM: 7358d85e899fe1ed5432fbca023b014516f9ac63
 

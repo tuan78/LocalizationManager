@@ -40,7 +40,7 @@ class ViewController: UIViewController {
     }
     
     @objc private func languageDidChange() {
-        var message = "LanguageDidChange:  \(NSLocalizedString("hello", comment: ""))"
+        var message = "LanguageDidChange to \(LocalizationManager.shared.currentLanguage):  \(localized("hello"))"
         if LocalizationManager.shared.isRTL {
             message += " with RTL supports"
         }

@@ -8,6 +8,19 @@
 import Foundation
 import UIKit
 
+// MARK: - NSNotification
+
+public extension NSNotification.Name {
+    
+    /// Notifcation whenever language changed.
+    static let LMLanguageDidChange = Notification.Name("LMLanguageDidChange")
+    
+    /// Notification whenever layout direction changed. From RTL to LTR and vice versace.
+    static let LMLayoutDirectionDidChange = Notification.Name("LMLayoutDirectionDidChange")
+}
+
+// MARK: - LocalizationManager
+
 open class LocalizationManager {
     
     public static let shared = LocalizationManager()
@@ -26,6 +39,9 @@ open class LocalizationManager {
         }
     }
     
+    /// Temporary language
+    open var temporaryLanguage: String?
+    
     /// Supported RTL Languages with ISO 639 code-1 format
     open var rtlLanguages: [String] = ["ar", "he", "fa", "ur"]
     
@@ -36,9 +52,20 @@ open class LocalizationManager {
         }
     }
     
+    /// Swizzle methods of Bundle,
+    /// will be used later to undo method swizzle.
+    private var bundleSwizzleMethods: SwizzleMethods?
+    
+    /// Swizzle methods of UIApplication,
+    /// will be used later to undo method swizzle.
+    private var applicationSwizzleMethods: SwizzleMethods?
+    
     open func start() {
-        swizzlingLocalizationMethod()
-        swizzlingUILayoutDirectionMethod()
+        applyMethodSwizzle()
+    }
+    
+    open func stop() {
+        undoMethodSwizzle()
     }
     
     /// Layout direction for given language code.
@@ -70,20 +97,20 @@ open class LocalizationManager {
     
     // MARK: Private Functions
     
-    private func swizzlingUILayoutDirectionMethod() {
-        let originalSelector = #selector(getter: UIApplication.userInterfaceLayoutDirection)
-        let overrideSelector = #selector(getter: UIApplication.customUserInterfaceLayoutDirection)
-        MethodSwizzleGivenClassName(UIApplication.self,
-                                    originalSelector: originalSelector,
-                                    overrideSelector: overrideSelector)
+    private func applyMethodSwizzle() {
+        bundleSwizzleMethods = MethodSwizzleHelper.applyBundleMethodSwizzle()
+        applicationSwizzleMethods = MethodSwizzleHelper.applyApplicationMethodSwizzle()
     }
     
-    private func swizzlingLocalizationMethod() {
-        let originalSelector = #selector(Bundle.localizedString(forKey:value:table:))
-        let overrideSelector = #selector(Bundle.customLocalizedString(forKey:value:table:))
-        MethodSwizzleGivenClassName(Bundle.self,
-                                    originalSelector: originalSelector,
-                                    overrideSelector: overrideSelector)
+    private func undoMethodSwizzle() {
+        if let methods = bundleSwizzleMethods {
+            MethodSwizzleHelper.undoMethodSwizzle(methods: methods)
+            bundleSwizzleMethods = nil
+        }
+        if let methods = applicationSwizzleMethods {
+            MethodSwizzleHelper.undoMethodSwizzle(methods: methods)
+            applicationSwizzleMethods = nil
+        }
     }
     
     private func checkAndApplyGlobalLayoutDirection(forLanguage language: String) {
@@ -116,124 +143,28 @@ public extension LocalizationManager {
     }
 }
 
-// MARK: - String - Extension
+// MARK: - Utilities
 
-public extension String {
-    
-    /// Get first two letters from language code
-    ///
-    /// Example: will get zh from zh-Hans (Chinese Simplified)
-    var twoLettersLanguageCode: String {
-        if self.count > 2 {
-            return String(self.prefix(2))
-        }
-        return self
+public func localized(_ key: String, quantity: Float? = nil, language: String? = nil) -> String {
+    // Check for given language
+    defer {
+        LocalizationManager.shared.temporaryLanguage = nil
     }
-}
-
-// MARK: - NSNotification
-
-public extension NSNotification.Name {
-    
-    /// Notifcation whenever language changed.
-    static let LMLanguageDidChange = Notification.Name("LMLanguageDidChange")
-    
-    /// Notification whenever layout direction changed. From RTL to LTR and vice versace.
-    static let LMLayoutDirectionDidChange = Notification.Name("LMLayoutDirectionDidChange")
-}
-
-// MARK: - Application - Extension
-
-public extension UIApplication {
-    
-    @objc var customUserInterfaceLayoutDirection : UIUserInterfaceLayoutDirection {
-        get {
-            let sharedLocalizationManager = LocalizationManager.shared
-            let currentLanguageCode = sharedLocalizationManager.currentLanguage
-            return LocalizationManager.shared.layoutDirection(forLanguage: currentLanguageCode)
-        }
-    }
-}
-
-// MAKR: - UIView - Extension
-
-public extension UIView {
-    
-    func updateCurrentLayoutDirection() {
-        semanticContentAttribute = LocalizationManager.shared.currentSemanticContentAttribute
-    }
-}
-
-// MARK: - Bundle - Extension
-
-public extension Bundle {
-    
-    @objc func customLocalizedString(forKey key: String, value: String?, table tableName: String?) -> String {
-        return bundleForCurrentLanguage.customLocalizedString(forKey: key,
-                                                              value: value,
-                                                              table: tableName)
-    }
-    
-    var bundleForCurrentLanguage: Bundle {
-        let sharedLocalizationManager = LocalizationManager.shared
-        let currentLanguage = sharedLocalizationManager.currentLanguage
-        
-        let mainBundle = Bundle.main
-        let bundlePath: String = mainBundle.path(forResource: currentLanguage, ofType: "lproj")
-            ?? mainBundle.path(forResource: "Base", ofType: "lproj") ?? ""
-        
-        if let currentLanguageBundle = Bundle(path: bundlePath) {
-            return currentLanguageBundle
-        }
-        return self
-    }
-}
-
-//var bundleKey: UInt8 = 0
-//
-//public class BundleEx: Bundle {
-//
-//    public override func localizedString(forKey key: String, value: String?, table tableName: String?) -> String {
-//        guard let path = objc_getAssociatedObject(self, &bundleKey) as? String,
-//            let bundle = Bundle(path: path) else {
-//                return super.localizedString(forKey: key, value: value, table: tableName)
-//        }
-//
-//        return bundle.localizedString(forKey: key, value: value, table: tableName)
-//    }
-//}
-//
-//public extension Bundle {
-//
-//    class func setLanguage(_ language: String) {
-//        defer {
-//            object_setClass(Bundle.main, BundleEx.self)
-//        }
-//
-//        objc_setAssociatedObject(Bundle.main, &bundleKey, Bundle.main.bundleForCurrentLanguage, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-//    }
-//}
-
-// MARK: - Private Functions
-
-private func MethodSwizzleGivenClassName(_ clazz: AnyClass, originalSelector: Selector, overrideSelector: Selector) {
-    
-    guard let originalMethod = class_getInstanceMethod(clazz, originalSelector) else {
-        return
-    }
-    
-    guard let overrideMethod = class_getInstanceMethod(clazz, overrideSelector) else {
-        return
-    }
-    
-    if class_addMethod(clazz, originalSelector,
-                       method_getImplementation(overrideMethod),
-                       method_getTypeEncoding(overrideMethod)) {
-        
-        class_replaceMethod(clazz, overrideSelector,
-                            method_getImplementation(originalMethod),
-                            method_getTypeEncoding(originalMethod))
+    let locale: Locale
+    if let `language` = language {
+        LocalizationManager.shared.temporaryLanguage = language
+        locale = Locale(identifier: language)
     } else {
-        method_exchangeImplementations(originalMethod, overrideMethod)
+        locale = Locale(identifier: LocalizationManager.shared.currentLanguage)
     }
+    
+    // Check for plural
+    var mutableKey = key
+    if let `quantity` = quantity {
+        let pluralRule = PluralRuleClassifierFactory(locale: locale).rule(for: quantity)
+        mutableKey.append(".\(pluralRule.rawValue)")
+    }
+    
+    let translatedString = NSLocalizedString(mutableKey, comment: "")
+    return translatedString
 }
