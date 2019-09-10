@@ -6,9 +6,10 @@
 
 ###Lightweight localization handlers and tools for iOS:
 
-* Set the global language at runtime without restarting app.
-* Send notification when language changes.
-* Check RTL layout direction and update views automatically.
+* Set the app language at runtime without restarting app.
+* Send notification when language and layout LTR direction changes.
+* Check layout direction and update views automatically.
+* Add Plural translation supports.
 
 ## Example
 
