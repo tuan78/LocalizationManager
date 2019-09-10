@@ -1,12 +1,12 @@
 Pod::Spec.new do |s|
   s.name             = 'LocalizationManager'
-  s.version          = '0.1.0'
-  s.summary          = 'Localization manager used to handle app language changes without restarting app, check LTR and more.'
+  s.version          = '0.1.1'
+  s.summary          = 'Lightweight localization handlers and tools for iOS'
   s.description      = <<-DESC
-  Localization manager supports:
+  Lightweight localization handlers and tools for iOS:
   * Set the global language at runtime without restarting app.
   * Send notification when language changes.
-  * Check LTR and update views automatically.
+  * Check RTL layout direction and update views automatically.
                        DESC
 
   s.homepage         = 'https://github.com/tuan78/LocalizationManager'
