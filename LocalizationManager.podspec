@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'LocalizationManager'
-  s.version          = '0.1.2'
+  s.version          = '0.1.3'
   s.summary          = 'Lightweight localization handlers and tools for iOS'
   s.description      = <<-DESC
   Lightweight localization handlers and tools for iOS:
