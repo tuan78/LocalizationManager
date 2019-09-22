@@ -40,7 +40,6 @@
 		D04AAC8B22E4A4DC4F39891C4E52F251 /* UIImage+Diff.h in Headers */ = {isa = PBXBuildFile; fileRef = E354F8FD537351F26F7949B4EBFA5101 /* UIImage+Diff.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		D4F0669B88101A49EBB64F5C530859A8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BD4ED544B638D07C7D755AF1C27116A /* Foundation.framework */; };
 		E0B8D095C732352C854D365B9E5B993D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CAA89EEF1039078430D7A886477E365 /* UIKit.framework */; };
-		E5777C6AE049BE73C54B8BDD8DFFFD4B /* Plurals.md in Sources */ = {isa = PBXBuildFile; fileRef = C65E12DA613D3132FB0925D7DD1E313C /* Plurals.md */; };
 		E6A4DF56526E2A3DC984192C2EC44AFD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BD4ED544B638D07C7D755AF1C27116A /* Foundation.framework */; };
 		E712BD7089E06296253B0977926461A7 /* Pods-LocalizationManager_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 50D7146B8D45FD9610CF7028DEECEE9C /* Pods-LocalizationManager_Tests-dummy.m */; };
 		E8AC509D18EBF21B1FEA909652A01108 /* FBSnapshotTestCasePlatform.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0B81AC7DF4855803A0FA70985F8A99 /* FBSnapshotTestCasePlatform.m */; };
@@ -604,7 +603,6 @@
 				0455D1FE231E6E8B006B2967 /* String+LocalizationManager.swift in Sources */,
 				9C19CB0C8E7DDF9E7AE6D62B66146C41 /* LocalizationManager.swift in Sources */,
 				3DC01B7F3DD855B51FFFD2E385B0EB5E /* PluralRule.swift in Sources */,
-				E5777C6AE049BE73C54B8BDD8DFFFD4B /* Plurals.md in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
