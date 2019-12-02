@@ -1,12 +1,14 @@
 Pod::Spec.new do |s|
   s.name             = 'LocalizationManager'
-  s.version          = '0.1.3'
+  s.version          = '0.1.4'
   s.summary          = 'Lightweight localization handlers and tools for iOS'
   s.description      = <<-DESC
   Lightweight localization handlers and tools for iOS:
-  * Set the global language at runtime without restarting app.
-  * Send notification when language changes.
   * Check RTL layout direction and update views automatically.
+  * Set the app language at runtime without restarting app.
+  * Send notification when language and layout LTR direction changes.
+  * Check layout direction and update views automatically.
+  * Add Plural translation supports.
                        DESC
 
   s.homepage         = 'https://github.com/tuan78/LocalizationManager'
@@ -17,5 +19,5 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '9.0'
   s.swift_version         = '4.2'
   s.requires_arc          = true
-  s.source_files          = 'LocalizationManager/Classes/**/*'
+  s.source_files          = 'LocalizationManager/Classes/**/*.{h,m,swift,stringsdict}'
 end

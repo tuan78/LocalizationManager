@@ -4,12 +4,12 @@
 [![License](https://img.shields.io/cocoapods/l/LocalizationManager.svg?style=flat)](https://cocoapods.org/pods/LocalizationManager)
 [![Platform](https://img.shields.io/cocoapods/p/LocalizationManager.svg?style=flat)](https://cocoapods.org/pods/LocalizationManager)
 
-###Lightweight localization handlers and tools for iOS:
+### Lightweight localization handlers and tools for iOS:
 
-* Set the app language at runtime without restarting app.
-* Send notification when language and layout LTR direction changes.
-* Check layout direction and update views automatically.
-* Add Plural translation supports.
+- [x] Set the app language at runtime without restarting app.
+- [x] Send notification when language and layout LTR direction changes.
+- [x] Check layout direction and update views automatically.
+- [x] Add Plural translation supports.
 
 ## Example
 
@@ -28,9 +28,9 @@ Start localization manager in AppDelegate
 ```swift
 func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
-LocalizationManager.shared.start()
+  LocalizationManager.shared.start()
 
-return true
+  return true
 }
 ```
 
@@ -64,4 +64,4 @@ Tuan Tran, tuantran070892@gmail.com
 
 ## License
 
-LocalizationManager is available under the MIT license. See the LICENSE file for more info.
+LocalizationManager is available under the MIT license. See the [LICENSE](LICENSE) file for more info.
